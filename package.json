@@ -1,0 +1,24 @@
+{
+  "name": "devden2",
+  "version": "1.0.0",
+  "description": "Bridging the gap between devs and employers",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shane Polwort, Jarec Turner",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "^1.17.2",
+    "cors": "*",
+    "express": "^4.15.3",
+    "jsonwebtoken": "*",
+    "mongoose": "^4.11.5",
+    "nodemon": "^1.11.0",
+    "passport": "*",
+    "passport-jwt": "*",
+    "passport-local": "^1.0.0"
+  }
+}
