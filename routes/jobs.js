@@ -29,11 +29,10 @@ router.post('/', passport.authenticate('jwt', {session:false}), function(req, re
         }
         let newJob = new Jobs({
             title: req.body.title,
-            author: req.body.author,
             type: req.body.type,
             salary: req.body.salary,
             details: req.body.details,
-            author: user
+            employer: user
         });
 
          newJob.save(function (err, result) {

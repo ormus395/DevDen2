@@ -7,9 +7,9 @@ var JobSchema = new Schema({
   title: String,
   author: String,
   type: String,
-  salary: Number,
+  salary: String,
   details: String,
-  author: {type: Schema.Types.ObjectId, ref: 'User'},
+  employer: {type: Schema.Types.ObjectId, ref: 'User'},
   createdAt: {type: Date, default: Date.now}
 });
 
