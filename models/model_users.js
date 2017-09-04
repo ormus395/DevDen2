@@ -21,9 +21,7 @@ const UserSchema = new Schema({
     required: true
   },
   role: {
-    type: String,
-    enum: ['developer', 'employer'],
-    default: 'developer'
+    type: String
   },
   jobs: [{type: Schema.Types.ObjectId, ref: 'Jobs'}],
   messages: [{type: Schema.Types.ObjectId, ref: 'Messages'}]
