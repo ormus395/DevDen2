@@ -135,5 +135,25 @@ router.route('/profile/employer')
     })
   })
 
+router.get('/employers', function(req, res, next) {
+  User.find({role: /employers/}, {password: 0, messages: 0 }).where('role').equals('employer').exec(function(err, user) {
+    if(err) {
+      res.json({success: false, message: 'Cant find employers'})
+    }
+    res.json(user)
+
+  })
+})
+
+router.get('/developers', function(req, res, next) {
+  User.find({role: /developers/}, {password: 0, messages: 0}).where('role').equals('developer').exec(function(err, user) {
+    if(err) {
+      res.json({success: false, message: 'Cant find developers'})
+    }
+    res.json(user)
+
+  })
+})
+
 
 module.exports = router;
