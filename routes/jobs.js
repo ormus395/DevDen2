@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
             if(err) {
                 return res.status(500).json({success: false, message: 'An error occurred'});
             }
-            res.status(200).json({success: true, obj: jobs});
+            res.status(200).json(jobs);
         });
 
 });

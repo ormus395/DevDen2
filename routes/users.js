@@ -155,5 +155,14 @@ router.get('/developers', function(req, res, next) {
   })
 })
 
+router.get('/', function(req, res, next) {
+	User.find().exec(function(err, user) {
+		if(err) {
+			res.json({success: false, message: 'Users not found'})
+		}
+		res.json(user)
+	})
+})
+
 
 module.exports = router;
