@@ -5,8 +5,11 @@ const config = require('../config/database');
 
 // User Schema
 const UserSchema = new Schema({
-  name: {
+  fname: {
     type: String
+  },
+  lname: {
+	  type: String
   },
   email: {
     type: String,

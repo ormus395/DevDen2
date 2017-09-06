@@ -7,12 +7,11 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const User = require('../models/model_users');
 
-
-
 // Register
 router.post('/register', (req, res, next) => {
   let newUser = new User({
-    name: req.body.name,
+    fname: req.body.fname,
+	lname: req.body.lname,
     email: req.body.email,
     username: req.body.username,
     password: req.body.password,
@@ -51,7 +50,8 @@ router.post('/authenticate', (req, res, next) => {
           token: 'JWT '+token,
           user: {
             id: user._id,
-            name: user.name,
+            fname: user.fname,
+			lname: user.lname,
             username: user.username,
             email: user.email,
             role: user.role
@@ -72,7 +72,8 @@ router.route('/profile')
   })
   .put(passport.authenticate('jwt', {session:false}), function(req, res) {
     let user = req.user;
-    user.name = req.body.name || user.name;
+    user.fname = req.body.fname || user.fname;
+    user.lname = req.body.lname || user.lname;	
     user.email = req.body.email || user.email;
     user.username = req.body.username || user.username;
 	user.role = req.body.role || user.role;
