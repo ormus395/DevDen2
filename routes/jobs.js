@@ -29,6 +29,7 @@ router.post('/', passport.authenticate('jwt', {session:false}), function(req, re
         }
         let newJob = new Jobs({
             title: req.body.title,
+			author: req.body.author,
             type: req.body.type,
             salary: req.body.salary,
             details: req.body.details,
@@ -56,12 +57,13 @@ router.patch('/:id', passport.authenticate('jwt', {session:false}), function(req
         if(!job) {
             return res.status(500).json({success: false, message: 'Jaab not found'});
         }
-        if(job.author != req.user.id) {
+        if(job.employer != req.user.id) {
             return res.status(401).json({success: false, message: 'This aint yo jaab'});
         }
         job.title = req.body.title || job.title;
         job.type = req.body.type || job.type;
         job.salary = req.body.salary || job.salary;
+        job.author = req.body.author || job.author;		
         job.details = req.body.details || job.details;
         job.save(function(err, result) {
             if(err) {
@@ -80,7 +82,7 @@ router.delete('/:id', passport.authenticate('jwt', {session:false}), function(re
         if(!job) {
             return res.status(500).json({success: false, message: 'Jaab not found'});
         }
-        if(job.author != req.user.id) {
+        if(job.employer != req.user.id) {
             return res.status(401).json({success: false, message: 'This aint you jaaab'});
         }
         job.remove(function(err, result) {
