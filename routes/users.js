@@ -21,7 +21,7 @@ router.post('/register', (req, res, next) => {
 
   User.addUser(newUser, (err, user) => {
     if(err){
-      res.json({success: false, msg:'Failed to register user'});
+      return res.json({success: false, msg:'Failed to register user'});
     } else {
       res.json({success: true, msg:'User registered'});
     }
@@ -64,25 +64,22 @@ router.post('/authenticate', (req, res, next) => {
   });
 });
 
-// get||update||delete developer profile (/users/profile/developer)
-router.route('/profile/developer')
+// get||update||delete profile (/users/profile)
+router.route('/profile')
   .get(passport.authenticate('jwt', {session:false}), (req, res, next) => {
     // console.log(req.user);
-    if(req.user.role === 'employer') {
-    res.status(403).json({success: false, message: 'Not authorized.'})
-    next();
-  }
-    res.json({user: req.user});
+    return res.json({user: req.user});
   })
   .put(passport.authenticate('jwt', {session:false}), function(req, res) {
     let user = req.user;
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     user.username = req.body.username || user.username;
+	user.role = req.body.role || user.role;
 
     user.save(function (err, user) {
       if(err) {
-          res.status(500).send(err)
+          return res.status(500).send(err)
         }
         res.json(user);
     })
@@ -92,44 +89,7 @@ router.route('/profile/developer')
 
     user.remove(function(err, user) {
       if(err) {
-        res.json({success: false, message: 'Cannot delete profile'});
-      }
-      res.json({success: true, message: 'Profile Deleted'});
-    })
-  })
-
-
-
-// get||update||delete employer profile (users/profile/employer)
-router.route('/profile/employer')
-    .get(passport.authenticate('jwt', {session:false}), (req, res, next) => {
-    // console.log(req.user);
-    if(req.user.role === 'developer') {
-    res.status(403).json({success: false, message: 'Not authorized.'})
-    next();
-  }
-    res.json({user: req.user});
-  })
-  .put(passport.authenticate('jwt', {session:false}), function(req, res) {
-    let user = req.user;
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
-    user.username = req.body.username || user.username;
-    user.createdAt = user.createdAt;
-
-    user.save(function (err, user) {
-      if(err) {
-          res.status(500).send(err)
-        }
-        res.json(user);
-    })
-  })
-  .delete(passport.authenticate('jwt', {session: false}), function(req, res) {
-    let user = req.user;
-
-    user.remove(function(err, user) {
-      if(err) {
-        res.json({success: false, message: 'Cannot delete profile'});
+        return res.json({success: false, message: 'Cannot delete profile'});
       }
       res.json({success: true, message: 'Profile Deleted'});
     })
@@ -138,7 +98,7 @@ router.route('/profile/employer')
 router.get('/employers', function(req, res, next) {
   User.find({role: /employers/}, {password: 0, messages: 0 }).where('role').equals('employer').exec(function(err, user) {
     if(err) {
-      res.json({success: false, message: 'Cant find employers'})
+      return res.json({success: false, message: 'Cant find employers'})
     }
     res.json(user)
 
@@ -148,7 +108,7 @@ router.get('/employers', function(req, res, next) {
 router.get('/developers', function(req, res, next) {
   User.find({role: /developers/}, {password: 0, messages: 0}).where('role').equals('developer').exec(function(err, user) {
     if(err) {
-      res.json({success: false, message: 'Cant find developers'})
+      return res.json({success: false, message: 'Cant find developers'})
     }
     res.json(user)
 
@@ -158,7 +118,7 @@ router.get('/developers', function(req, res, next) {
 router.get('/', function(req, res, next) {
 	User.find().exec(function(err, user) {
 		if(err) {
-			res.json({success: false, message: 'Users not found'})
+			return res.json({success: false, message: 'Users not found'})
 		}
 		res.json(user)
 	})
