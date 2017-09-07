@@ -48,9 +48,9 @@ router.post('/', passport.authenticate('jwt', {session:false}), function(req, re
     });
 });
 
-router.patch('/:id', passport.authenticate('jwt', {session:false}), function(req, res, next) {
+router.put('/:id', passport.authenticate('jwt', {session:false}), function(req, res, next) {
     console.log(req.user.id);
-    Jobs.findById(req.params.id, function(err, job) {
+    Jobs.findById({_id: req.params.id}, function(err, job) {
         if(err) {
             return res.status(500).json({success: false, message: 'An error occurred'});
         }

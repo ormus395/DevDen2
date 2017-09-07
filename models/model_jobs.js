@@ -14,7 +14,7 @@ var JobSchema = new Schema({
 });
 
 JobSchema.post('remove', function(job) {
-  User.findById(job.author, function (err, user) {
+  User.findById(job.employer, function (err, user) {
     user.jobs.pull(job);
     user.save();
   });

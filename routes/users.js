@@ -51,7 +51,7 @@ router.post('/authenticate', (req, res, next) => {
           user: {
             id: user._id,
             fname: user.fname,
-			lname: user.lname,
+			      lname: user.lname,
             username: user.username,
             email: user.email,
             role: user.role
@@ -76,7 +76,7 @@ router.route('/profile')
     user.lname = req.body.lname || user.lname;	
     user.email = req.body.email || user.email;
     user.username = req.body.username || user.username;
-	user.role = req.body.role || user.role;
+	  user.role = req.body.role || user.role;
 
     user.save(function (err, user) {
       if(err) {
